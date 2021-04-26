@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import {apiResp} from './api/apiResp'
+import { CardContainer } from "./components/CardContainer";
+import { Head } from "./components/Head";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+
+	//Petition
+
+	const [characters, setCharacters] = useState([]);
+
+	useEffect(() => {
+		getData();
+	}, []);
+
+	const getData = async () => {
+		const resp = await apiResp.get(
+			"https://www.breakingbadapi.com/api/characters"
+		);
+		setCharacters(resp.data);
+	};
+
+	return (
+		<>
+		<div>	
+		<Head />
+		<CardContainer characters = {characters} />
+		</div>
+		</>
+	);
+};
 
 export default App;
